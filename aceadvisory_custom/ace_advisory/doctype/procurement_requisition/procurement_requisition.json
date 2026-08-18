@@ -84,7 +84,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": ":Company",
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
