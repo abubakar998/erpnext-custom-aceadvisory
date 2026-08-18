@@ -86,7 +86,7 @@ app_license = "mit"
 # ------------
 
 # before_install = "aceadvisory_custom.install.before_install"
-# after_install = "aceadvisory_custom.install.after_install"
+after_install = "aceadvisory_custom.install.after_install"
 
 # Uninstallation
 # ------------

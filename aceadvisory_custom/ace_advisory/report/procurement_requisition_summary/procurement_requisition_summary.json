@@ -1,0 +1,27 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2026-08-19 00:00:00.000000",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "modified": "2026-08-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Ace Advisory",
+ "name": "Procurement Requisition Summary",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Procurement Requisition",
+ "report_name": "Procurement Requisition Summary",
+ "report_type": "Script Report",
+ "roles": [
+  {"role": "System Manager"},
+  {"role": "Procurement Requester"},
+  {"role": "Department Head"},
+  {"role": "Finance Reviewer"},
+  {"role": "Administration Officer"}
+ ]
+}
