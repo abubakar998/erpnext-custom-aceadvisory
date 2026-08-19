@@ -124,6 +124,8 @@ def make_request_for_quotation(source_name, target_doc=None):
 	Suppliers are deliberately left empty: choosing whom to invite is the
 	Administration team's decision and belongs on the RFQ form.
 	"""
+	frappe.only_for(("Administration Officer", "System Manager"))
+
 	source = frappe.get_doc("Procurement Requisition", source_name)
 	source.check_permission("read")
 

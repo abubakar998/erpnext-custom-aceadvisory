@@ -26,6 +26,7 @@ frappe.ui.form.on("Procurement Requisition", {
 
 	add_create_rfq_button(frm) {
 		if (frm.doc.docstatus !== 1 || frm.doc.status !== "Approved") return;
+		if (!frappe.user.has_role("Administration Officer") && !frappe.user.has_role("System Manager")) return;
 
 		frm.add_custom_button(__("Create RFQ"), () => {
 			frappe.confirm(
