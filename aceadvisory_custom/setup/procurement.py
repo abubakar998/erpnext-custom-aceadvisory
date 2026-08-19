@@ -181,7 +181,7 @@ def create_approval_notification():
 				"for the RFQ process.\n\n"
 				"- **Requested By:** {{ doc.requested_by_name or doc.requested_by }}\n"
 				"- **Department:** {{ doc.department }}\n"
-				"- **Item:** {{ doc.item_description }} ({{ doc.quantity }} {{ doc.uom or '' }})\n"
+				"- **Item:** {{ doc.item_name or doc.item_code }} ({{ doc.quantity }} {{ doc.uom or '' }})\n"
 				"- **Estimated Budget:** {{ frappe.utils.fmt_money(doc.estimated_budget) }}\n"
 				"- **Required By:** {{ frappe.utils.formatdate(doc.required_date) }}\n"
 			),

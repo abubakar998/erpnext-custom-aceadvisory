@@ -32,7 +32,7 @@ frappe.ui.form.on("Procurement Requisition", {
 				__("Raise a Request for Quotation for {0} {1} of {2}?", [
 					format_number(frm.doc.quantity),
 					frm.doc.uom || "",
-					frm.doc.item_description.bold(),
+					frm.doc.item_name.bold(),
 				]),
 				() => {
 					frappe.model.open_mapped_doc({

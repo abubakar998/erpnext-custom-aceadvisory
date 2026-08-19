@@ -127,14 +127,6 @@ def make_request_for_quotation(source_name, target_doc=None):
 	source = frappe.get_doc("Procurement Requisition", source_name)
 	source.check_permission("read")
 
-	if not source.item_code:
-		frappe.throw(
-			_("Set an {0} on this requisition before raising a Request for Quotation.").format(
-				frappe.bold(_("Item"))
-			),
-			title=_("Item Required"),
-		)
-
 	existing = frappe.db.get_value(
 		"Request for Quotation",
 		{"procurement_requisition": source_name, "docstatus": ["<", 2]},
@@ -149,23 +141,23 @@ def make_request_for_quotation(source_name, target_doc=None):
 		)
 
 	def set_missing_values(source, target):
-		target.procurement_requisition = source.name
-		target.transaction_date = nowdate()
-		target.schedule_date = source.required_date
-		target.subject = _("Request for Quotation: {0}").format(source.item_description)
-		target.message_for_supplier = source.justification
-
 		item_defaults = frappe.db.get_value(
 			"Item", source.item_code, ["item_name", "description", "stock_uom"], as_dict=True
 		)
 		uom = source.uom or item_defaults.stock_uom
+
+		target.procurement_requisition = source.name
+		target.transaction_date = nowdate()
+		target.schedule_date = source.required_date
+		target.subject = _("Request for Quotation: {0}").format(item_defaults.item_name)
+		target.message_for_supplier = source.justification
 
 		target.append(
 			"items",
 			{
 				"item_code": source.item_code,
 				"item_name": item_defaults.item_name,
-				"description": source.item_description or item_defaults.description,
+				"description": item_defaults.description,
 				"qty": source.quantity,
 				"uom": uom,
 				"stock_uom": item_defaults.stock_uom,

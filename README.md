@@ -44,11 +44,18 @@ Finance, and once Approved, Administration raises a Request for Quotation.
 
 `Procurement Requisition` ([doctype folder](aceadvisory_custom/ace_advisory/doctype/procurement_requisition))
 is submittable and number itself via the naming series `PR-.YYYY.-`. Beyond the
-required fields (Request Date, Requested By, Department, Item Description,
-Quantity, Estimated Budget, Required Date, Justification, Status) it adds:
+required fields (Request Date, Requested By, Department, Quantity, Estimated
+Budget, Required Date, Justification, Status) it adds:
 
 - `company`, `item_code`, `uom` — needed to raise a proper RFQ later; without an
   Item and UOM there's nothing valid to map onto the RFQ's item table.
+  `item_code` is required rather than a free-text "Item Description" field: the
+  Item master already carries `item_name` and `description`, so a separate
+  manually-typed description would just be the same information duplicated
+  and prone to drifting out of sync with the master.
+- `item_name` — fetched read-only from `item_code.item_name`, purely for
+  readability on the form and in list views, the same pattern as
+  `requested_by_name` below.
 - `requested_by_name`, `requested_by_user` — fetched read-only from the
   `Requested By` Employee (`employee_name`, `user_id`). `requested_by_user` is
   what the self-approval check and workflow condition compare against, since a

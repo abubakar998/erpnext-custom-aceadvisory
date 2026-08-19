@@ -17,8 +17,8 @@
   "department",
   "status",
   "section_break_request",
-  "item_description",
   "item_code",
+  "item_name",
   "quantity",
   "uom",
   "column_break_request",
@@ -122,18 +122,20 @@
    "label": "Request Details"
   },
   {
-   "fieldname": "item_description",
-   "fieldtype": "Data",
+   "fieldname": "item_code",
+   "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Item Description",
+   "label": "Item",
+   "options": "Item",
    "reqd": 1
   },
   {
-   "description": "Optional. Link a stock/service Item to enable a Request for Quotation to be raised from this requisition.",
-   "fieldname": "item_code",
-   "fieldtype": "Link",
-   "label": "Item",
-   "options": "Item"
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "read_only": 1
   },
   {
    "default": "1",

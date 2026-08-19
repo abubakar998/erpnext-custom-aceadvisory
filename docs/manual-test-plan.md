@@ -39,7 +39,10 @@ Employee's **User ID** field, so `requested_by_user` fetches correctly:
 - Company: your default Company
 - Save.
 
-### 0.3 Item (optional, only needed for the RFQ button test in §5)
+### 0.3 Item
+
+`item_code` is mandatory on every Procurement Requisition, so create at least
+one Item before running any of the scenarios below.
 
 **Stock → Item → New** — any purchasable Item with a Stock UOM, e.g. `Laptop`.
 
@@ -58,9 +61,13 @@ Employee's **User ID** field, so `requested_by_user` fetches correctly:
      `Requested By` is set.
    - **Requested By (Name)** and **Requested By (User)**: read-only, fetched
      automatically from the Employee.
-   - **Item Description**, **Quantity** (defaults to 1), **Estimated Budget**,
-     **Required Date**, **Justification**: all present and marked mandatory
-     (red asterisk).
+   - **Item**: Link to Item, marked mandatory; only Items with `disabled = 0`
+     are selectable.
+   - **Item Name**: read-only, auto-fills from the selected Item's
+     `item_name` once **Item** is set — no free-text description to type or
+     keep in sync with the Item master.
+   - **Quantity** (defaults to 1), **Estimated Budget**, **Required Date**,
+     **Justification**: all present and marked mandatory (red asterisk).
    - **Status**: read-only Select, shows `Draft`.
 4. Save as `requester@test.com`. Expect: saves successfully, name becomes
    `PR-2026-00001` (or similar), Status shows `Draft`.
@@ -84,7 +91,7 @@ Do each of these both **in the browser** (client-side, instant) and **via API**
   ```bash
   bench --site <site> execute frappe.get_doc --kwargs '{
     "doctype": "Procurement Requisition", "requested_by": "<employee-id>",
-    "department": "<department>", "item_description": "Test", "quantity": 0,
+    "department": "<department>", "item_code": "Test Laptop", "quantity": 0,
     "estimated_budget": 100, "required_date": "2026-12-31",
     "justification": "test"}' 2>&1
   ```
@@ -237,17 +244,15 @@ Draft.
 
 ### 5.1 Option A — Create RFQ button
 
-1. Take the requisition from §3.1 (now `Approved`, submitted), and make sure
-   it has an **Item** (`item_code`) set — edit it if needed (docstatus 1
-   documents allow editing `allow_on_submit` fields only, so if `item_code`
-   isn't `allow_on_submit`, use a requisition where it was set before
-   submission).
+1. Take the requisition from §3.1 (now `Approved`, submitted) — `item_code`
+   is mandatory on the doctype, so every requisition already has one from
+   creation; no extra setup needed here.
 2. Log in as `admin.officer@test.com`, open the requisition.
 3. Confirm a **Create RFQ** button (primary/blue) appears — and confirm it
    does **not** appear on a requisition that is still in Draft or any review
    stage.
 4. Click it → confirm the `frappe.confirm` dialog text mentions the quantity,
-   UOM and item description.
+   UOM and item name.
 5. Confirm → a new **Request for Quotation** form opens, pre-filled with:
    - `procurement_requisition` = the source requisition's name
    - one item row with the correct item code, qty, UOM
